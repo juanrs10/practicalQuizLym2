@@ -2,7 +2,6 @@ import java.io.IOException;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import grammarDefLexer.java
 
 public class Main {
 
@@ -18,8 +17,6 @@ public class Main {
 
         // Parse the input and generate the parse tree
         ParseTree tree = parser.rulelist();
-
-        // Print the parse tree
         System.out.println(tree.toStringTree(parser));
     }
 }

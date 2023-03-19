@@ -1,37 +1,28 @@
-import com.creativewidgetworks.goldparser.engine.*;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.*;
 
 public class ModuloThreeDFA {
 
     public static void main(String[] args) {
-        // Define the states
-        Automata states = new Automata();
-        states.defineState("q0", true, false); // Start state
-        states.defineState("q1", false, false);
-        states.defineState("q2", false, false);
-        states.defineState("q3", false, true); // Final state
+        // Define the input string
+        String input = "aabbbccc$";
         
-        // Define the alphabet
-        String alphabet = "abc$";
+        // Create the lexer
+        grammarDefLexer lexer = new grammarDefLexer(CharStreams.fromString(input));
         
-        // Define the transition function
-        states.defineTransition("q0", "q0", "abc"); // Loop on all letters
-        states.defineTransition("q0", "q1", "abc");
-        states.defineTransition("q0", "q2", "abc");
-        states.defineTransition("q1", "q0", "abc");
-        states.defineTransition("q1", "q2", "abc");
-        states.defineTransition("q1", "q3", "$");
-        states.defineTransition("q2", "q0", "abc");
-        states.defineTransition("q2", "q1", "abc");
-        states.defineTransition("q2", "q3", "$");
-        states.defineTransition("q3", "q3", "abc$"); // Loop on all letters and accept on $
+        // Create the token stream
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
         
         // Create the parser
-        Parser parser = new Parser(alphabet, states);
+        grammarDefParser parser = new grammarDefParser(tokens);
         
-        // Parse an example input string
-        ParseTree parseTree = parser.parse("aabbbccc$");
+        // Parse the input string and get the parse tree
+        ParseTree parseTree = parser.start();
         
-        // Print whether the input was recognized by the automata
-        System.out.println(parseTree != null);
+        // Check if the input string was recognized by the automata
+        boolean recognized = parseTree != null;
+        
+        // Print the result
+        System.out.println(recognized);
     }
 }
